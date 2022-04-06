@@ -6,9 +6,14 @@ class LinkedListBasicPlus:
         self.__numItems=0
   
     def insert(self,i:int,newItem):
-        if i>=0 and i<=self.__numItems:
+        if i == 0: # head 가 none이기때문에 prev가 존재하지 않음 그래서 생성
+            newNode = Node(newItem,self.__head.next)
+            newNode.next = self.__head
+            self.__head = newNode
+            self.__numItems += 1 
+        elif i>0 and i<=self.__numItems:
             prev = self.__getNode(i-1)
-            newNode=self.Node(newItem,prev.next)
+            newNode=Node(newItem,prev.next)
             prev.next=newNode
             self.__numItems+=1
         else:
@@ -16,16 +21,21 @@ class LinkedListBasicPlus:
   
     def append(self,newItem):
         if self.__numItems==0:
-            self.__head=self.Node(newItem)
+            self.__head=Node(newItem)
             self.__numItems+=1
         else:
             prev=self.__getNode(self.__numItems-1)
-            newNode=self.Node(newItem)
+            newNode=Node(newItem)
             prev.next=newNode
             self.__numItems+=1
   
     def pop(self,i:int):
-        if(i>=0 and i<=self.__numItems-1):
+        if i == 0:
+            curr = self.__head
+            self.__head = curr.next
+            self.__numItems -= 1
+            return self.__numItems
+        if(i>0 and i<=self.__numItems-1):
             prev=self.__getNode(i-1)
             curr=prev.next
             prev.next=curr.next
@@ -73,7 +83,7 @@ class LinkedListBasicPlus:
   
     def count(self, x):
         cnt=0
-        curr=self.__head.next
+        curr=self.__head # head가 dummy가 아님
         while curr !=None:
             if curr.item ==x:
                 cnt+=1
@@ -81,8 +91,10 @@ class LinkedListBasicPlus:
         return cnt
   
     def extend(self, a):
-        for index in range(a.size()):
-            self.append(a.get(index))
+        prev=self.__getNode(self.__numItems-1)
+        prev.next = a.__head
+        self.__numItems += a.size()
+
 
     def copy(self):
         a=LinkedListBasicPlus()
@@ -91,12 +103,12 @@ class LinkedListBasicPlus:
         return a
   
     def reverse(self):
-        a=LinkedListBasicPlus()
-        for index in range(self.__numItems):
-            a.insert(0, self.get(index))
+        a=self.copy() # self를 복사
         self.clear()
-        for index in range(a.size()):
+        for index in range(a.__numItems-1, -1, -1): # a가 self. 인데 append함수는 뒤에 붙이기 때문에 거꾸로 시작하면 반대로됨
             self.append(a.get(index))
+        
+        
 
     def sort(self):
         a=[]
@@ -119,12 +131,12 @@ class LinkedListBasicPlus:
 
     def __getNode(self,i:int):
         curr=self.__head
-        for index in range(i+1):
+        for index in range(i): #head가 dummy가 아니기때문에 +1 삭제
             curr=curr.next
         return curr
   
     def printList(self):
-        curr = self.__head.next
+        curr = self.__head
         while curr != None:
             print(curr.item, end=' ')
             curr=curr.next
