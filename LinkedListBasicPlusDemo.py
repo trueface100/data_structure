@@ -4,6 +4,7 @@ list=LinkedListBasicPlus()
 list.append(30)
 list.insert(0,20)
 
+
 a=LinkedListBasicPlus()
 a.append(4)
 a.append(3)
