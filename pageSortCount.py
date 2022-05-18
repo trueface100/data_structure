@@ -1,5 +1,6 @@
 from quickSort import*
-from mergeSort import*
+from quicksortlambda import*
+
 
 def do_sort(input_file):
 
@@ -21,11 +22,20 @@ def do_sort(input_file):
             B.append(0)
             k+=1
 
-    d1=sorted(d.items(),key=lambda x:x[1],reverse=True)
+    keys=list(d.keys())
+    values=list(d.values())
+
+    # quickSort(values,0,len(values)-1)
+    # d1=sorted(d.items(),key=lambda x:x[1],reverse=True)
+    # quicksortlambda(values,keys,0,len(d)-1)
 
     for i in range(10):
-        print(d1[i])
-    print("")
+        print(keys[i])
+        print(values[i])
+
+    # for i in range(10):
+    #     print(d1[i])
+    # print("")
 
 if __name__=="__main__":
     do_sort("linkbench_short.trc")
